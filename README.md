@@ -1,5 +1,5 @@
 # SDL_Clicky
-##Simple library for working with GUI in SDL
+## Simple library for working with GUI in SDL
 This is a simple library for working with GUI in SDL. By providing simple and flexible types and methods, the user can compose their own aggregate types for more complex purposes if need be.
 The library relies on the fact that, on any system the author can think of that this library would ever feasibly be used to make an application for, the address of a struct is the same as the address of its first member. This is used as a form of singular inheritance, which lays the foundation of the structure of the library.
 
