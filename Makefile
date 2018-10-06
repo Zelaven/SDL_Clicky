@@ -6,7 +6,7 @@ CFLAGS = -I"/usr/include/SDL2" -g -Wall -lSDL2
 ODIR = obj
 SDIR = src
 
-_DEPS = SDL_Clicky.h clickable.h
+_DEPS = SDL_Clicky.h clickable.h containers/containers.h
 DEPS = $(patsubst %,$(SDIR)/%,$(_DEPS))
 _SRC = SDL_Clicky.c clickable.c
 SRC = $(patsubst %,$(SDIR)/%,$(_SRC))
