@@ -24,12 +24,18 @@ typedef struct {
 // In theory, adding a single void* to this container could act as an extension by composition, where the pointer could point to any data that could ever be desired. Perhaps this fact should be given more consideration, though it would have to be handled very well to not be a hassle to use for the user.
 typedef struct {
   Clickable super;
-  void (*drawFunc) (void*, SDL_Renderer*); //The user is responsible for calling this.
-  
 } SimpleContainer;
+// ^ Might not even have any use. It will stick around for now.
+
+
+//A container for a scroll bar. It should have related functions but at the time of writing, it is simply used for testing the clickable hierarchy structure.
+typedef struct {
+  Clickable super;
+  Dragable bar;
+} Scrollbar_Container;
+Scrollbar_Container* Scrollbar_Container_Constructor(int x, int y, int width, int height, int blockheight);
 
 //Add more container types here.
-
 
 #endif // SDL_CLICKY_CONTAINERS_H_
 

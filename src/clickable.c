@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "clickable.h"
 
 bool Clickable_CheckBounds(Clickable *c, int x, int y) {
@@ -15,14 +16,18 @@ bool Clickable_CheckBounds(Clickable *c, int x, int y) {
 
 Clickable *heldClickable;
 //Calls the clickables clickFunc iff the mouse is inside the clickable.
-void Clicky_ClickClickable(void *c_, int x, int y) {
+//Returns true if it is clicked regardless of whether the clickFunc is NULL or not, and false otherwise.
+bool Clicky_ClickClickable(void *c_, int x, int y) {
+  //printf("CALL: Clicky_ClickClickable\n  Params: %p, %d, %d\n", c_, x, y);
   Clickable *c = c_;
   if(Clickable_CheckBounds(c, x, y)) {
     heldClickable = c;
     if(c->clickFunc != NULL) { //Not necessarily true.
       c->clickFunc((void*)c, x, y);
     }
+    return true; //It doesn't matter if the clickable does anything, if it is clicked it reports it.
   }
+  return false;
 }
 
 //Calls the clickables releaseFunc iff the mouse is inside the clickable.
@@ -38,6 +43,10 @@ void Clicky_ReleaseClickable(void *c_, int x, int y) {
 
 //Calls the releasefunc of the held clickable, if it isn't NULL.
 void Clicky_ReleaseHeldClickable(int x, int y) {
+  //printf("Releasing held clickable.\n");
+  //printf("  heldClickable: %p\n", heldClickable);
+  //printf("  heldClickable->x: %d\n", heldClickable->dimensions.x);
+  //printf("  heldClickable->releaseFunc: %p\n", heldClickable->releaseFunc);
   if(heldClickable == NULL) {
     return; //Nothing to do.
   }
@@ -88,6 +97,7 @@ void Clicky_DragUpdate(int x, int y) {
 
 //Sets the global variables for the dragging mechanism. They are used in the function Dragable_DragUpdate.
 void Dragable_ClickFunc(void *dragable, int x, int y) {
+  //printf("Dragable clicked.\n");
   currentDragged = dragable;
   dragOffset.x = x - currentDragged->coordinatesToDrag->x;
   dragOffset.y = y - currentDragged->coordinatesToDrag->y;
@@ -96,6 +106,7 @@ void Dragable_ClickFunc(void *dragable, int x, int y) {
 //This function clears the global variables so nothing will be dragged.
 //The args are ignored.
 void Dragable_ReleaseFunc(void *dragable, int x, int y) {
+  //printf("Dragable released.\n");
   currentDragged = NULL;
   dragOffset.x = 0;
   dragOffset.y = 0;
